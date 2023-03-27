@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-const AddPosts = () => {
+export default function CreatePosts() {
 	const [title, setTitle] = useState("");
 	const [isDisabled, setIsDisabled] = useState(false);
 
@@ -36,6 +36,4 @@ const AddPosts = () => {
 			</div>
 		</form>
 	);
-};
-
-export default AddPosts;
+}
