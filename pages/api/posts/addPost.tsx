@@ -18,5 +18,33 @@ export default async function handler(
 		const title: string = req.body.title;
 
 		console.log(req.body);
+
+		//Get User
+		const prismaUser = await prisma.user.findUnique({
+			where: { email: session?.user?.email },
+		});
+
+		//Check title
+		if (title.length > 300) {
+			return res.status(403).json({ message: "Please write a shorter post" });
+		}
+
+		if (!title.length) {
+			return res
+				.status(403)
+				.json({ message: "Please write something before we can post it." });
+		}
+
+		try {
+			const result = await prisma.post.create({
+				data: {
+					title,
+					userId: prismaUser.id,
+				},
+			});
+			res.status(200).json(result);
+		} catch (err) {
+			res.status(403).json({ err: "Error has occured while making a post" });
+		}
 	}
 }
