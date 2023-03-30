@@ -23,8 +23,6 @@ export default function CreatePosts() {
 				setIsDisabled(false);
 			},
 			onSuccess: (data) => {
-				// queryClient.invalidateQueries(["posts"]);
-				// toast.success("Post has been made 🔥", { id: toastPostID });
 				setTitle("");
 				setIsDisabled(false);
 			},
