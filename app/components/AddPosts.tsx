@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 export default function CreatePosts() {
 	const [title, setTitle] = useState("");
 	const [isDisabled, setIsDisabled] = useState(false);
+	let toastPostID: string;
 
 	//create post
 	const { mutate } = useMutation(
@@ -17,12 +18,12 @@ export default function CreatePosts() {
 		{
 			onError: (error) => {
 				if (error instanceof AxiosError) {
-					toast.error(error?.response?.data.message);
+					toast.error(error?.response?.data.message, { id: toastPostID });
 				}
-				console.log(error);
 				setIsDisabled(false);
 			},
 			onSuccess: (data) => {
+				toast.success("Post has been made 🔥", { id: toastPostID });
 				setTitle("");
 				setIsDisabled(false);
 			},
@@ -37,14 +38,14 @@ export default function CreatePosts() {
 	};
 
 	return (
-		<form onSubmit={submitPost} className="bg-white my-8 p-8 rounded-md ">
+		<form onSubmit={submitPost} className="bg-white my-8 p-8 rounded-md">
 			<div className="flex flex-col my-4">
 				<textarea
 					onChange={(e) => setTitle(e.target.value)}
 					value={title}
 					name="title"
 					placeholder="What's on your mind?"
-					className="p-4 text-lg rounded-md my-2  bg-gray-200"
+					className="p-4 text-lg rounded-md my-2 bg-gray-200"
 				/>
 			</div>
 			<div className=" flex items-center justify-between gap-2">
