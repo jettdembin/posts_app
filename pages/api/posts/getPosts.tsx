@@ -8,7 +8,14 @@ export default async function handler(
 	if (req.method === "GET") {
 		// fetch all posts
 		try {
-			const data = await prisma.post.findMany();
+			const data = await prisma.post.findMany({
+				include: {
+					user: true,
+				},
+				orderBy: {
+					createdAt: "desc",
+				},
+			});
 			res.status(200).json(data);
 		} catch (err) {
 			res.status(403).json({ err: "Error fetching posts" });
