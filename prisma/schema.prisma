@@ -19,8 +19,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Post          Post[]
-  Comment       Comment[]
+  posts         Post[]
+  comments      Comment[]
 }
 
 model Post {
