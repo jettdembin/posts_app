@@ -23,7 +23,7 @@ export default function MyPosts(): JSX.Element {
 			{data?.posts?.map((post) => (
 				// <EditPost
 
-				<>test</>
+				<>tesst</>
 			))}
 		</div>
 	);
