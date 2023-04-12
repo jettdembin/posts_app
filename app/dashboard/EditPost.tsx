@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Toggle from "./Toggle";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
@@ -26,8 +26,9 @@ export default function EditPost({
 	id,
 }: EditProps) {
 	const [toggle, setToggle] = useState(false);
+	const queryClient = useQueryClient();
 	let deleteToastId: string;
-	let loaderId: string;
+
 	//delete post
 	const { mutate } = useMutation(
 		async (id: string) =>
@@ -39,13 +40,18 @@ export default function EditPost({
 			},
 			onSuccess: (data) => {
 				console.log(data);
-				loaderId = toast.success("Post has been deleted.");
+				queryClient.invalidateQueries("getAuthPosts");
+				deleteToastId = toast.success("Post has been deleted.", {
+					id: deleteToastId,
+				});
 			},
 		}
 	);
 
 	const deletePost = () => {
-		loaderId = toast.loading("Deleting your post");
+		deleteToastId = toast.loading("Deleting your post", {
+			id: deleteToastId,
+		});
 		mutate(id);
 	};
 	return (
