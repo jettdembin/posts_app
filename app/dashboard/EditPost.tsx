@@ -4,6 +4,7 @@ import Image from "next/image";
 import Toggle from "./Toggle";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 type EditProps = {
 	id: string;
@@ -25,6 +26,7 @@ export default function EditPost({
 	id,
 }: EditProps) {
 	const [toggle, setToggle] = useState(false);
+	let deleteToastId: string;
 	//delete post
 	const { mutate } = useMutation(
 		async (id: string) =>
@@ -32,14 +34,17 @@ export default function EditPost({
 		{
 			onError: (error) => {
 				console.log(error);
+				toast.error("Error deleting that post", { id: deleteToastId });
 			},
 			onSuccess: (data) => {
 				console.log(data);
+				toast.success("Post has been deleted.", { id: deleteToastId });
 			},
 		}
 	);
 
 	const deletePost = () => {
+		deleteToastId = toast.loading("Deleting your post", { id: deleteToastId });
 		mutate(id);
 	};
 	return (
