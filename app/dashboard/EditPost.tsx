@@ -27,6 +27,7 @@ export default function EditPost({
 }: EditProps) {
 	const [toggle, setToggle] = useState(false);
 	let deleteToastId: string;
+	let loaderId: string;
 	//delete post
 	const { mutate } = useMutation(
 		async (id: string) =>
@@ -38,13 +39,13 @@ export default function EditPost({
 			},
 			onSuccess: (data) => {
 				console.log(data);
-				toast.success("Post has been deleted.", { id: deleteToastId });
+				loaderId = toast.success("Post has been deleted.");
 			},
 		}
 	);
 
 	const deletePost = () => {
-		deleteToastId = toast.loading("Deleting your post", { id: deleteToastId });
+		loaderId = toast.loading("Deleting your post");
 		mutate(id);
 	};
 	return (
