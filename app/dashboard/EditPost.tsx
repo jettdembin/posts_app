@@ -39,8 +39,7 @@ export default function EditPost({
 				console.log(error);
 			},
 			onSuccess: (data) => {
-				console.log(data);
-				queryClient.invalidateQueries("getAuthPosts");
+				queryClient.invalidateQueries("auth-posts");
 				toast.dismiss();
 				toast.success("Post has been deleted.");
 			},
